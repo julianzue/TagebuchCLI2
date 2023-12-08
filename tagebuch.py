@@ -2,8 +2,6 @@ from colorama import Fore, init
 import time
 import os
 import datetime
-import scantree
-
 
 # colors
 r = Fore.LIGHTRED_EX

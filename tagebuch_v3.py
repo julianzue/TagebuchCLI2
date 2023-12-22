@@ -91,27 +91,20 @@ class Diary():
     def show(self):
 
         counter = 0
-        files = []
 
         for item in os.scandir("tagebuch"):
             if item.is_dir():
                 for subitem in os.scandir("tagebuch/" + item.name):
                     if subitem.name.endswith(".txt"):
+                        with open("tagebuch/" + item.name + "/" + subitem.name, "r") as fr:
+                            for line in fr.readlines():
+                                counter += 1
 
-                        files.append(item.name + "/" + subitem.name)
-        
-        files.sort()
-
-        for file in files:
-            with open("tagebuch/" + file, "r") as fr:
-                for line in fr.readlines():
-                    counter += 1
-
-                    if counter == 1:
-                        print(dim + "NR  | KW | Tag | Datum      | Ereignis" + res)
-                        print(dim + "----+----+-----+------------+-----------------------------------" + res)
-                
-                    print(dim + "{:03d}".format(counter) + " | " + res + file.split("/")[1].strip(".txt") + " | " + line.strip("\n"))
+                                if counter == 1:
+                                    print(dim + "NR  | KW | Tag | Datum      | Ereignis" + res)
+                                    print(dim + "----+----+-----+------------+-----------------------------------" + res)
+                            
+                                print(dim + "{:03d}".format(counter) + " | " + res + subitem.name.strip(".txt") + " | " + line.strip("\n"))
 
 
 
@@ -126,28 +119,21 @@ class Diary():
         print("")
 
         counter = 0
-        files = []
 
         for item in os.scandir("tagebuch"):
             if item.is_dir():
                 for subitem in os.scandir("tagebuch/" + item.name):
                     if subitem.name.endswith(".txt"):
+                        with open("tagebuch/" + item.name + "/" + subitem.name, "r") as fr:
+                            for line in fr.readlines():
+                                if search_text.upper() in line.upper():
+                                    counter += 1
 
-                        files.append(item.name + "/" + subitem.name)
-        
-        files.sort()
+                                    if counter == 1:
+                                        print(dim + "NR  | KW | Tag | Datum      | Ereignis" + res)
+                                        print(dim + "----+----+-----+------------+-----------------------------------" + res)
 
-        for file in files:
-            with open("tagebuch/" + file, "r") as fr:
-                for line in fr.readlines():
-                    if search_text.upper() in line.upper():
-                        counter += 1
-
-                        if counter == 1:
-                            print(dim + "NR  | KW | Tag | Datum      | Ereignis" + res)
-                            print(dim + "----+----+-----+------------+-----------------------------------" + res)
-                    
-                        print(dim + "{:03d}".format(counter) + " | " + res + file.split("/")[1].strip(".txt") + " | " + line.strip("\n"))
+                                    print(dim + "{:03d}".format(counter) + " | " + res + subitem.name.strip(".txt") + " | " + line.strip("\n"))
 
 
         if counter == 0:
